@@ -4,12 +4,18 @@ local clientPlayerServerId <const> = GetPlayerServerId(PlayerId())
 local talkingPlayerList            = {}
 local localPlayerIsTalking         = false
 
-CreateThread(function()
-    functions.CreateAudioSubmix(config.underWaterTalking)
-    functions.SetAudioSubmixEffect(config.underWaterTalking.name, config.underWaterTalking.effects)
+AddEventHandler('onClientResourceStart', function(resource)
+    if resource ~= GetCurrentResourceName() then return end
 
-    functions.CreateAudioSubmix(config.underWaterHear)
-    functions.SetAudioSubmixEffect(config.underWaterHear.name, config.underWaterHear.effects)
+    local effectList <const> = { "underWaterTalking", "vehicleInside", "radioMid", "radioFar", "radioDefault", "underWaterHear" }
+    for i = 1, #effectList do
+        local effect <const> = config.effects[effectList[i]]
+        if effect.active then
+            functions.CreateAudioSubmix(effect)
+            functions.SetAudioSubmixEffect(effect.name, effect.effects)
+        end
+    end
+
     SetAudioSubmixEffectParamInt(0, 0, `enabled`, 0)
 
     local underWaterSubmixActive = false
@@ -30,13 +36,15 @@ CreateThread(function()
             TriggerServerEvent("tgiann-voice:setIsTalking", talking)
         end
 
-        local isPedSwimmingUnderWater <const> = IsPedSwimmingUnderWater(PlayerPedId())
-        if not underWaterSubmixActive and isPedSwimmingUnderWater then
-            underWaterSubmixActive = true
-            SetAudioSubmixEffectParamInt(0, 0, `enabled`, 1)
-        elseif underWaterSubmixActive and not isPedSwimmingUnderWater then
-            underWaterSubmixActive = false
-            SetAudioSubmixEffectParamInt(0, 0, `enabled`, 0)
+        if config.effects.underWaterHear.active then
+            local isPedSwimmingUnderWater <const> = IsPedSwimmingUnderWater(PlayerPedId())
+            if not underWaterSubmixActive and isPedSwimmingUnderWater then
+                underWaterSubmixActive = true
+                SetAudioSubmixEffectParamInt(0, 0, `enabled`, 1)
+            elseif underWaterSubmixActive and not isPedSwimmingUnderWater then
+                underWaterSubmixActive = false
+                SetAudioSubmixEffectParamInt(0, 0, `enabled`, 0)
+            end
         end
     end
 end)
@@ -59,6 +67,8 @@ AddStateBagChangeHandler("isTalking", nil, function(bagName, key, value)
         talkingPlayerList["p_" .. player] = nil
     end
 end)
+
+RegisterNetEvent('tgiann-voice:setTalkingOnRadio', functions.SetTalkingOnRadio)
 
 AddEventHandler('onResourceStop', function(resourceName)
     if GetCurrentResourceName() ~= resourceName then return end
