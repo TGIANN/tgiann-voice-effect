@@ -10,4 +10,5 @@ shared_script "init.lua"
 files {
     "config.lua",
     "client/*.lua",
+    "server/*.lua",
 }
