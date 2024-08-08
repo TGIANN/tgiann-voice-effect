@@ -125,6 +125,14 @@ function functions.CheckVehicle(vehicle)
         end
     end
 
+    if IsVehicleAConvertible(vehicle, false) and GetConvertibleRoofState(vehicle) ~= 0 then
+        return false
+    end
+
+    if not DoesVehicleHaveRoof(vehicle) then
+        return false
+    end
+
     for i = 0, 3 do
         if GetVehicleDoorAngleRatio(vehicle, i) > 0.2 then
             return false
@@ -141,6 +149,7 @@ end
 
 function functions.SetTalkingOnRadio(serverId, enabled, playerCoords)
     if not enabled then
+        MumbleSetVolumeOverrideByServerId(serverId, -1.0)
         talkingRadioPlayers[serverId] = nil
         return
     end
@@ -149,7 +158,7 @@ function functions.SetTalkingOnRadio(serverId, enabled, playerCoords)
     local dist <const> = #(playerCoords - GetEntityCoords(PlayerPedId()))
     local count <const> = #config.radioDistance
 
-    MumbleSetVolumeOverrideByServerId(serverId, 1.0)
+    MumbleSetVolumeOverrideByServerId(serverId, LocalPlayer.state.radio or 1.0)
     for i = 1, count do
         if dist < config.radioDistance[i].dist then
             return functions.SetPlayerSubmixEffect(config.radioDistance[i].effect, serverId)
