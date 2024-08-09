@@ -148,13 +148,14 @@ function functions.CheckVehicle(vehicle)
 end
 
 function functions.SetTalkingOnRadio(serverId, enabled, playerCoords)
+    Wait(100) -- a small waiting time to overwrite pma's effect
     if not enabled then
         MumbleSetVolumeOverrideByServerId(serverId, -1.0)
         talkingRadioPlayers[serverId] = nil
         return
     end
+
     talkingRadioPlayers[serverId] = true
-    Wait(100)
     local dist <const> = #(playerCoords - GetEntityCoords(PlayerPedId()))
     local count <const> = #config.radioDistance
 

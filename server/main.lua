@@ -1,4 +1,5 @@
 local config <const> = require "config"
+require "server.versionCheck"
 
 RegisterNetEvent('tgiann-voice:setIsTalking', function(bool)
     local playerState = Player(source).state
