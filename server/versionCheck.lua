@@ -14,14 +14,14 @@ local function infoHandle(msg, color)
     print(("^3%s^7: ^%s%s^7"):format(resourceName, color, msg))
 end
 
-local function checkVersion(_, responseText, _)
-    local currentVersion <const> = tonumber(LoadResourceFile(resourceName, "version"))
-    local latestVersion <const> = tonumber(responseText)
+local function checkVersion(_, latestVersion, _)
+    local currentVersion <const> = LoadResourceFile(resourceName, "version")
+
     if not latestVersion then
         return infoHandle("An error occurred while trying to get the current version!")
     end
 
-    if tonumber(latestVersion) ~= tonumber(currentVersion) then
+    if latestVersion ~= currentVersion then
         infoHandle(("currentVersion: %s"):format(latestVersion), "green")
         infoHandle(("Your version: %s"):format(currentVersion), "blue")
         infoHandle("You need download latest version! You are using an old version at the moment!", "red")
