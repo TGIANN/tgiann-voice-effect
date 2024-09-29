@@ -11,8 +11,8 @@ This script, designed for GTA 5 FiveM servers, enhances the overall audio experi
 ## Features
 
 - **Underwater Sound Effects**: Environmental sounds and player voices are muffled when the player is underwater.
-- **Muffled Vehicle Voices**: Voices of players inside or outside vehicles are muffled when underwater.
-- **Radio Sound Distortion**: The radio sound distorts as the distance increases while underwater, providing a realistic audio experience.
+- **Muffled Vehicle Voices**: Voices of players inside or outside vehicles are muffled.
+- **Radio Sound Distortion**: The radio sound distorts as the distance increases, providing a realistic audio experience.
 - **Realistic Audio Experience**: Provides a more immersive experience by replicating the underwater audio environment.
 
 ## Installation
@@ -27,8 +27,8 @@ This script, designed for GTA 5 FiveM servers, enhances the overall audio experi
 The script will automatically apply the following sound effects:
 
 - Environmental sounds and player voices are muffled when a player goes underwater.
-- Voices of players inside or outside vehicles are muffled when underwater.
-- Radio sounds distort as the distance increases while underwater.
+- Voices of players inside or outside vehicles are muffled.
+- Radio sounds distort as the distance increases.
 
 ## License
 
